@@ -1,0 +1,64 @@
+cc_library {
+    name: "libopenjdkmplvm",
+
+    defaults: [
+        "maple_defaults",
+        "maple_cov_check",
+    ],
+
+    shared_libs: [
+        "libbase",
+        "libcommon_bridge",
+        "libnativehelper",
+        "libandroidmpl-rt",
+        "libc_secshared",
+    ],
+
+    compile_multilib: "64",
+
+    srcs: ["OpenjdkMpl.cpp"],
+
+    header_libs: [
+         "libnativehelper_header_only",
+         "maplert_publicheaders",
+         "libandroidmpl-rt_publicheaders",
+    ],
+
+    include_dirs: [
+        "bionic/libc/private",
+        "vendor/open_source/platform-rt/shared/core",
+        "maple/mrt/compiler-rt/include",
+        "maple/mrt/compiler-rt/public-headers",
+        "libcore/ojluni/src/main/native",
+        "vendor/huawei/chipset_common/modules/libc_sec/include",
+    ],
+}
+
+cc_library {
+    name: "libopenjdkmpl",
+
+    defaults: [
+        "maple_defaults",
+        "maple_cov_check",
+    ],
+
+    shared_libs: [
+       "libopenjdkmplvm",
+       "libcrypto",
+       "libicuuc",
+       "libssl",
+       "libz",
+       "libnativehelper",
+       "liblog",
+       "libbase",
+       "libandroidio",
+       "libdl_android",
+    ],
+
+    compile_multilib: "64",
+
+    whole_static_libs: [
+        "libopenjdkmpl_static",
+    ],
+
+}

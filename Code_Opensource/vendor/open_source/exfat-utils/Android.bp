@@ -1,0 +1,72 @@
+/*
+ * Free exFAT implementation.
+ * Copyright (C) 2017  liminghao, LongPingWEI
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+cc_defaults {
+    name: "exfat_defaults",
+
+    cflags: [
+        "-Wno-error",
+        "-D_FILE_OFFSET_BITS=64",
+        "-DPACKAGE=\"exfat\"",
+        "-DVERSION=\"1.3.0\"",
+    ],
+    shared_libs: ["liblog"],
+    clang:true,
+}
+
+cc_library_static {
+    name: "libexfat",
+
+    srcs: ["libexfat/*.c"],
+    defaults: ["exfat_defaults"],
+    local_include_dirs: ["libexfat"],
+    export_include_dirs: ["libexfat"],
+    include_dirs: ["vendor/huawei/chipset_common/modules/libc_sec"],
+    static_libs: [
+        "libc_secstatic",
+    ],
+}
+
+
+cc_binary {
+    name: "mkfs.exfat",
+
+    srcs: ["mkfs/*.c"],
+    defaults: ["exfat_defaults"],
+    local_include_dirs: ["mkfs"],
+    include_dirs: ["vendor/huawei/chipset_common/modules/libc_sec"],
+    static_libs:[
+        "libexfat",
+        "libc_secstatic",
+    ],
+}
+
+cc_binary {
+    name: "fsck.exfat",
+
+    srcs: ["fsck/main.c"],
+    defaults: ["exfat_defaults"],
+    local_include_dirs: ["fsck"],
+    include_dirs: ["vendor/huawei/chipset_common/modules/libc_sec"],
+    static_libs: [
+        "libexfat",
+        "libc_secstatic",
+    ],
+}
+

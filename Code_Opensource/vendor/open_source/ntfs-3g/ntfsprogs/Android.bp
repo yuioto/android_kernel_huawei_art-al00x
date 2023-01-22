@@ -1,0 +1,19 @@
+cc_binary {
+    name: "ntfsfix",
+
+    srcs: [
+        "ntfsfix.c",
+        "utils.c",
+    ],
+    header_libs: [
+        "libntfs-3g_headers",
+        "ntfs-3g-config_headers"
+    ],
+    static_libs: ["libelf_headers"],
+    shared_libs: ["libntfs-3g"],
+    cflags: [
+        "-DHAVE_CONFIG_H",
+        "-Werror",
+        "-Wall"
+    ],
+}
